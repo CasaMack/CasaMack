@@ -2,6 +2,7 @@ version: "3.9"  # optional since v1.27.0
 services:
   tibber_prices:
     image: areskiko/tibber_status:${PLATFORM}
+    restart: always
 
     # Needed to pass token if not set as environment variables
     tty: true
@@ -23,6 +24,7 @@ services:
 
   easee:
     image: areskiko/easee_status:${PLATFORM}
+    restart: always
 
     # Needed to pass username and password if not set as environment variables
     tty: true
