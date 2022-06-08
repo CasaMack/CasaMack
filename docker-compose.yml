@@ -19,7 +19,7 @@ services:
       - INFLUXDB_DB_NAME=Fibaro
       - TIBBER_API_ENDPOINT=https://api.tibber.com/v1-beta/gql
       - LOG_LEVEL=info # defaults to info
-      - CREDENTIALS_FILE=/credentials/credentials
+      - TOKEN_FILE=/credentials/credentials
       - UPDATE_TIME=11 # defaults to 11
 
   easee:
@@ -51,7 +51,7 @@ volumes:
     driver_opts:
       type: 'none'
       o: 'bind'
-      device: '/var/log/CasaMack/tibber_status'
+      device: '/var/log/CasaMack/tibber_prices'
   easee_logvolume:
     driver: local
     driver_opts:
