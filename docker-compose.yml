@@ -1,0 +1,58 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  tibber_prices:
+    image: areskiko/tibber_status
+
+    # Needed to pass token if not set as environment variables
+    tty: true
+    stdin_open: true
+
+    volumes:
+      # Easier access to logs
+      - tibber_prices_logvolume:/var/log/
+      - tibber_credentials:/credentials/
+    
+    # Settings
+    environment:
+      - INFLUXDB_ADDR=http://192.168.10.102:8086
+      - INFLUXDB_DB_NAME=Fibaro
+      - TIBBER_API_ENDPOINT=https://api.tibber.com/v1-beta/gql
+      - LOG_LEVEL=info # defaults to info
+      - CREDENTIALS_FILE=/credentials/credentials
+      - UPDATE_TIME=11 # defaults to 11
+
+  easee:
+    image: areskiko/easee_status
+
+    # Needed to pass username and password if not set as environment variables
+    tty: true
+    stdin_open: true
+
+    volumes:
+      # Easier access to logs
+      - easee_logvolume:/var/log/
+      - easee_credentials:/credentials/
+    
+    # Settings
+    environment:
+      - INFLUXDB_ADDR=http://192.168.10.102:8086
+      - INFLUXDB_DB_NAME=Fibaro
+      - LOG_LEVEL=info # defaults to info
+      - CREDENTIALS_FILE=/credentials/credentials
+      - INTERVAL=1 # defaults to 1
+
+volumes:
+  tibber_credentials: {}
+  easee_credentials: {}
+  tibber_prices_logvolume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/var/log/CasaMack/tibber_status'
+  easee_logvolume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/var/log/CasaMack/easee'
