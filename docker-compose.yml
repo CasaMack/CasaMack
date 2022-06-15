@@ -18,9 +18,9 @@ services:
       - INFLUXDB_ADDR=http://192.168.10.102:8086
       - INFLUXDB_DB_NAME=Fibaro
       - TIBBER_API_ENDPOINT=https://api.tibber.com/v1-beta/gql
-      - HOME_ID=36231b62-0d4a-43cc-a210-c147b2cc97dc
       - LOG_LEVEL=info # defaults to info
       - TOKEN_FILE=/credentials/credentials
+      - RETRIES = 13
   
   tibber_subscribe:
     image: areskiko/tibber_subscribe:${PLATFORM}
@@ -37,6 +37,7 @@ services:
       - INFLUXDB_ADDR=http://192.168.10.102:8086
       - INFLUXDB_DB_NAME=Fibaro
       - TIBBER_API_ENDPOINT=https://api.tibber.com/v1-beta/gql
+      - HOME_ID=36231b62-0d4a-43cc-a210-c147b2cc97dc
       - LOG_LEVEL=info # defaults to info
       - TOKEN_FILE=/credentials/credentials
 
