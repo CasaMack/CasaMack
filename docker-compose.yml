@@ -57,7 +57,7 @@ services:
     environment:
       - INFLUXDB_ADDR=http://192.168.10.102:8086
       - INFLUXDB_DB_NAME=Fibaro
-      - TIBBER_API_ENDPOINT=https://api.tibber.com/v1-beta/gql
+      - TIBBER_API_ENDPOINT=wss://api.tibber.com/v1-beta/gql/subscriptions
       - HOME_ID=36231b62-0d4a-43cc-a210-c147b2cc97dc
       - LOG_LEVEL=info # defaults to info
       - TOKEN_FILE=/credentials/credentials
@@ -86,6 +86,7 @@ services:
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 60
 
 volumes:
   tibber_credentials: {}
