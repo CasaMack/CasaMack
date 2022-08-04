@@ -22,6 +22,27 @@ services:
       - TOKEN_FILE=/credentials/credentials
       - RETRIES = 13
   
+  tibber_refiner:
+    image: areskiko/tibber_refiner:${PLATFORM}
+    restart: always
+
+    # Needed to pass token if not set as environment variables
+    tty: true
+    stdin_open: true
+
+    volumes:
+      # Easier access to logs
+      - tibber_refiner_logvolume:/var/log/
+      - tibber_credentials:/credentials/
+    
+    # Settings
+    environment:
+      - INFLUXDB_ADDR=http://192.168.10.102:8086
+      - INFLUXDB_DB_NAME=Fibaro
+      - LOG_LEVEL=info # defaults to info
+      - TOKEN_FILE=/credentials/credentials
+      - RETRIES = 13
+  
   tibber_subscribe:
     image: areskiko/tibber_subscribe:${PLATFORM}
     restart: always
@@ -75,6 +96,12 @@ volumes:
       type: 'none'
       o: 'bind'
       device: '/var/log/CasaMack/tibber_prices'
+  tibber_refiner_logvolume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/var/log/CasaMack/tibber_refiner'
   tibber_subscribe_logvolume:
     driver: local
     driver_opts:
