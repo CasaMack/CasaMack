@@ -43,6 +43,23 @@ services:
       - TOKEN_FILE=/credentials/credentials
       - RETRIES = 13
   
+  casa_server:
+    image: areskiko/casa_server:${PLATFORM}
+    restart: always
+    
+    ports:
+      - "4000:8000"
+
+    volumes:
+      # Easier access to logs
+      - casa_server_logvolume:/var/log/
+    
+    # Settings
+    environment:
+      - INFLUXDB_ADDR=http://192.168.10.102:8086
+      - INFLUXDB_DB_NAME=Fibaro
+      - LOG_LEVEL=info # defaults to info
+
   tibber_subscribe:
     image: areskiko/tibber_subscribe:${PLATFORM}
     restart: always
@@ -115,3 +132,9 @@ volumes:
       type: 'none'
       o: 'bind'
       device: '/var/log/CasaMack/easee'
+  casa_server_logvolume:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: 'bind'
+      device: '/var/log/CasaMack/casa_server'
